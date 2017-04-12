@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  message-persistence-service:
+    image: "message-persistence-service"
+    ports:
+      - 2021:2021
+    depends_on:
+      - elastic
+    restart: always
+
+  elastic:
+    image: "elasticsearch"
+    ports:
+      - 9200:9200
