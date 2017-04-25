@@ -26,7 +26,10 @@ func Run() {
 	}
 
 	router := mux.NewRouter()
+	router.Handle(fmt.Sprintf("/{%s}", organization), writeHandler).Methods("POST")
 	router.Handle(fmt.Sprintf("/{%s}/{%s}", organization, project), writeHandler).Methods("POST")
+
+	router.Handle(fmt.Sprintf("/{%s}/{%s}", organization, id), writeHandler).Methods("UPDATE", "DELETE")
 	router.Handle(fmt.Sprintf("/{%s}/{%s}/{%s}", organization, project, id), writeHandler).Methods("UPDATE", "DELETE")
 
 	http.ListenAndServe(":2021", router)

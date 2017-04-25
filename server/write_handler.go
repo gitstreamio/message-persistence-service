@@ -34,7 +34,15 @@ func (srv *writeHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 func (srv *writeHandler) handleUpdate(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Update")
 	vars := mux.Vars(r)
-	msg := &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
+	_, hasProject := vars[project]
+
+	var msg *common.Message
+	if hasProject {
+		msg = &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
+	} else {
+		msg = &common.Message{Timeline: fmt.Sprintf("%s", vars[organization])}
+	}
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		rw.WriteHeader(400)
@@ -42,9 +50,9 @@ func (srv *writeHandler) handleUpdate(rw http.ResponseWriter, r *http.Request) {
 	}
 	err = json.Unmarshal(body, msg)
 
-	id, ok := vars[id]
+	id, hasId := vars[id]
 
-	if err != nil || !ok || id == "" || msg.Body == "" || msg.Author == "" {
+	if err != nil || !hasId || id == "" || msg.Body == "" || msg.Author == "" {
 		log.WithError(err).
 			WithField("body", msg.Body).
 			WithField("id", id).
@@ -82,7 +90,15 @@ func (srv *writeHandler) handleDelete(rw http.ResponseWriter, r *http.Request) {
 func (srv *writeHandler) handlePost(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Create")
 	vars := mux.Vars(r)
-	msg := &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
+
+	_, hasProject := vars[project]
+	var msg *common.Message
+	if hasProject {
+		msg = &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
+	} else {
+		msg = &common.Message{Timeline: fmt.Sprintf("%s", vars[organization])}
+	}
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.WithError(err).Error("Create failed")
