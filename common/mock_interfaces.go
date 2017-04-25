@@ -28,25 +28,25 @@ func (_m *MockPersistenceAdapter) EXPECT() *_MockPersistenceAdapterRecorder {
 	return _m.recorder
 }
 
-func (_m *MockPersistenceAdapter) Persist(msg Message) (string, error) {
-	ret := _m.ctrl.Call(_m, "Persist", msg)
+func (_m *MockPersistenceAdapter) Create(msg Message) (string, error) {
+	ret := _m.ctrl.Call(_m, "Create", msg)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-func (_mr *_MockPersistenceAdapterRecorder) Persist(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "Persist", arg0)
+func (_mr *_MockPersistenceAdapterRecorder) Create(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Create", arg0)
 }
 
-func (_m *MockPersistenceAdapter) Update(msg Message) error {
-	ret := _m.ctrl.Call(_m, "Update", msg)
+func (_m *MockPersistenceAdapter) Update(id string, msg Message) error {
+	ret := _m.ctrl.Call(_m, "Update", id, msg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-func (_mr *_MockPersistenceAdapterRecorder) Update(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "Update", arg0)
+func (_mr *_MockPersistenceAdapterRecorder) Update(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Update", arg0, arg1)
 }
 
 func (_m *MockPersistenceAdapter) Delete(id string) error {
@@ -59,36 +59,36 @@ func (_mr *_MockPersistenceAdapterRecorder) Delete(arg0 interface{}) *gomock.Cal
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "Delete", arg0)
 }
 
-// Mock of Persister interface
-type MockPersister struct {
+// Mock of Creator interface
+type MockCreator struct {
 	ctrl     *gomock.Controller
-	recorder *_MockPersisterRecorder
+	recorder *_MockCreatorRecorder
 }
 
-// Recorder for MockPersister (not exported)
-type _MockPersisterRecorder struct {
-	mock *MockPersister
+// Recorder for MockCreator (not exported)
+type _MockCreatorRecorder struct {
+	mock *MockCreator
 }
 
-func NewMockPersister(ctrl *gomock.Controller) *MockPersister {
-	mock := &MockPersister{ctrl: ctrl}
-	mock.recorder = &_MockPersisterRecorder{mock}
+func NewMockCreator(ctrl *gomock.Controller) *MockCreator {
+	mock := &MockCreator{ctrl: ctrl}
+	mock.recorder = &_MockCreatorRecorder{mock}
 	return mock
 }
 
-func (_m *MockPersister) EXPECT() *_MockPersisterRecorder {
+func (_m *MockCreator) EXPECT() *_MockCreatorRecorder {
 	return _m.recorder
 }
 
-func (_m *MockPersister) Persist(msg Message) (string, error) {
-	ret := _m.ctrl.Call(_m, "Persist", msg)
+func (_m *MockCreator) Create(msg Message) (string, error) {
+	ret := _m.ctrl.Call(_m, "Create", msg)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-func (_mr *_MockPersisterRecorder) Persist(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "Persist", arg0)
+func (_mr *_MockCreatorRecorder) Create(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Create", arg0)
 }
 
 // Mock of Updater interface
@@ -112,14 +112,14 @@ func (_m *MockUpdater) EXPECT() *_MockUpdaterRecorder {
 	return _m.recorder
 }
 
-func (_m *MockUpdater) Update(msg Message) error {
-	ret := _m.ctrl.Call(_m, "Update", msg)
+func (_m *MockUpdater) Update(id string, msg Message) error {
+	ret := _m.ctrl.Call(_m, "Update", id, msg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-func (_mr *_MockUpdaterRecorder) Update(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "Update", arg0)
+func (_mr *_MockUpdaterRecorder) Update(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Update", arg0, arg1)
 }
 
 // Mock of Deleter interface
@@ -202,4 +202,35 @@ func (_m *MockSearcher) SearchByProject(organization string) []Message {
 
 func (_mr *_MockSearcherRecorder) SearchByProject(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "SearchByProject", arg0)
+}
+
+// Mock of Finder interface
+type MockFinder struct {
+	ctrl     *gomock.Controller
+	recorder *_MockFinderRecorder
+}
+
+// Recorder for MockFinder (not exported)
+type _MockFinderRecorder struct {
+	mock *MockFinder
+}
+
+func NewMockFinder(ctrl *gomock.Controller) *MockFinder {
+	mock := &MockFinder{ctrl: ctrl}
+	mock.recorder = &_MockFinderRecorder{mock}
+	return mock
+}
+
+func (_m *MockFinder) EXPECT() *_MockFinderRecorder {
+	return _m.recorder
+}
+
+func (_m *MockFinder) FindById(id string) Message {
+	ret := _m.ctrl.Call(_m, "FindById", id)
+	ret0, _ := ret[0].(Message)
+	return ret0
+}
+
+func (_mr *_MockFinderRecorder) FindById(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "FindById", arg0)
 }

@@ -1,17 +1,17 @@
 package common
 
 type PersistenceAdapter interface {
-	Persister
+	Creator
 	Updater
 	Deleter
 }
 
-type Persister interface {
-	Persist(msg Message) (id string, err error)
+type Creator interface {
+	Create(msg Message) (id string, err error)
 }
 
 type Updater interface {
-	Update(msg Message) error
+	Update(id string, msg Message) error
 }
 
 type Deleter interface {
@@ -24,3 +24,6 @@ type Searcher interface {
 	SearchByProject(organization string) []Message
 }
 
+type Finder interface {
+	FindById(id string) Message
+}
