@@ -5,6 +5,7 @@ import (
 	"context"
 	"message-persistence-service/common"
 	"encoding/json"
+	"strings"
 )
 
 type elasticGetter struct {
@@ -33,9 +34,34 @@ func (eg elasticGetter) GetById(id string) (common.Message, error) {
 
 }
 
-func (eg elasticGetter) Get(beginning int, amount int) ([]common.Message, error) {
-	searchTerm := elastic.NewTermQuery(
-	res, err := eg.client.Search()
+func (eg elasticGetter) Get(timeline string, from int, size int) ([]common.Message, error) {
+	//we need a term query for the user/orga AND optional project so that we can do a boolquery on elastic
+	terms := strings.Split(timeline, "/")
+	termQueries := make([]*elastic.TermQuery, 1)
+	for term := range terms {
+		termQueries = append(termQueries, elastic.NewTermQuery("timeline", term))
+	}
+	searchQuery := elastic.NewBoolQuery().Must(termQueries...)
+
+	results, err := doSearch(eg, searchQuery, from, size)
+	if err != nil {
+		return nil, err
+	}
+
+	messages := make([]common.Message, results.Hits.TotalHits)
+	for i, hit := range results.Hits.Hits {
+		msg := &common.Message{}
+		err := json.Unmarshal([]byte(hit.Source), msg)
+		if err != nil {
+			return nil, err
+		}
+		messages[i] = *msg
+	}
+	return messages, err
+
+}
+func doSearch(eg elasticGetter, searchQuery *elastic.BoolQuery, from int, size int) (*elastic.SearchResult, error) {
+	return eg.client.Search(msgIndex).Type(msgType).Query(searchQuery).From(from).Size(size).Do(eg.ctx)
 }
 
 func NewElasticGetter(ctx context.Context, client *elastic.Client) (common.Getter) {

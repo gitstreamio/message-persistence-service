@@ -62,7 +62,7 @@ func handleUpdate_test_function(t *testing.T, data testUpdateData) {
 	req := &http.Request{Method: "UPDATE", Body: ioutil.NopCloser(bytes.NewReader(jsonMsg))}
 	rw := mocks.NewMockResponseWriter(ctrl)
 
-	toTest := &writeHandler{persisterMock, varsGetterMock}
+	toTest := &readHandler{persisterMock, varsGetterMock}
 
 	//expect
 	rw.EXPECT().WriteHeader(data.expectedStatus).Times(1)

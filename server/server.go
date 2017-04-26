@@ -8,18 +8,21 @@ import (
 	"message-persistence-service/elastic"
 	"net/http"
 	"os"
+	"github.com/Sirupsen/logrus"
 )
 
 const organization string = "organization"
 const project string = "project"
 const id string = "id"
 
+var log = logrus.New()
+
 func Run() {
 	ctx := context.Background()
 
 	elasticClient, err := elastic.NewElasticClient(ctx)
 	persistanceAdapter:= elastic.NewElasticAdapter(ctx, elasticClient)
-	writeHandler := &writeHandler{persistanceAdapter, GorillaVarsGetter{}}
+	writeHandler := &readHandler{persistanceAdapter, GorillaVarsGetter{}}
 
 	if err != nil {
 		spew.Dump(err)
