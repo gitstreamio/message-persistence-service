@@ -5,6 +5,7 @@ package common
 
 import (
 	gomock "github.com/golang/mock/gomock"
+	http "net/http"
 )
 
 // Mock of PersistenceAdapter interface
@@ -248,4 +249,35 @@ func (_m *MockGetter) Get(beginning int, amount int) ([]Message, error) {
 
 func (_mr *_MockGetterRecorder) Get(arg0, arg1 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "Get", arg0, arg1)
+}
+
+// Mock of MuxVarsGetter interface
+type MockMuxVarsGetter struct {
+	ctrl     *gomock.Controller
+	recorder *_MockMuxVarsGetterRecorder
+}
+
+// Recorder for MockMuxVarsGetter (not exported)
+type _MockMuxVarsGetterRecorder struct {
+	mock *MockMuxVarsGetter
+}
+
+func NewMockMuxVarsGetter(ctrl *gomock.Controller) *MockMuxVarsGetter {
+	mock := &MockMuxVarsGetter{ctrl: ctrl}
+	mock.recorder = &_MockMuxVarsGetterRecorder{mock}
+	return mock
+}
+
+func (_m *MockMuxVarsGetter) EXPECT() *_MockMuxVarsGetterRecorder {
+	return _m.recorder
+}
+
+func (_m *MockMuxVarsGetter) Vars(r *http.Request) map[string]string {
+	ret := _m.ctrl.Call(_m, "Vars", r)
+	ret0, _ := ret[0].(map[string]string)
+	return ret0
+}
+
+func (_mr *_MockMuxVarsGetterRecorder) Vars(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Vars", arg0)
 }

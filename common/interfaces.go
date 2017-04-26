@@ -1,5 +1,7 @@
 package common
 
+import "net/http"
+
 type PersistenceAdapter interface {
 	Creator
 	Updater
@@ -27,4 +29,9 @@ type Searcher interface {
 type Getter interface {
 	GetById(id string) (Message, error)
 	Get(beginning int, amount int) ([]Message, error)
+}
+
+//This is an interface so that we can mock retrieval of path variables from our mux
+type MuxVarsGetter interface {
+	Vars(r *http.Request) map[string]string
 }

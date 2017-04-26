@@ -19,7 +19,7 @@ func Run() {
 
 	elasticClient, err := elastic.NewElasticClient(ctx)
 	persistanceAdapter:= elastic.NewElasticAdapter(ctx, elasticClient)
-	writeHandler := &writeHandler{persistanceAdapter}
+	writeHandler := &writeHandler{persistanceAdapter, GorillaVarsGetter{}}
 
 	if err != nil {
 		spew.Dump(err)
