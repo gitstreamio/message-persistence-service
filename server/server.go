@@ -18,7 +18,7 @@ func Run() {
 	ctx := context.Background()
 
 	elasticClient, err := elastic.NewElasticAdapter(ctx)
-	writeHandler := &writeHandler{elasticClient}
+	writeHandler := &writeHandler{elasticClient, GorillaVarsGetter{}}
 
 	if err != nil {
 		spew.Dump(err)

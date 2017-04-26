@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Sirupsen/logrus"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"message-persistence-service/common"
 	"net/http"
@@ -14,6 +13,7 @@ var log = logrus.New()
 
 type writeHandler struct {
 	common.PersistenceAdapter
+	common.MuxVarsGetter
 }
 
 func (srv *writeHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -33,7 +33,7 @@ func (srv *writeHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 }
 func (srv *writeHandler) handleUpdate(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Update")
-	vars := mux.Vars(r)
+	vars := srv.Vars(r)
 	_, hasProject := vars[project]
 
 	msg := newMessageWithTimeline(hasProject, vars)
@@ -66,7 +66,7 @@ func (srv *writeHandler) handleUpdate(rw http.ResponseWriter, r *http.Request) {
 }
 func (srv *writeHandler) handleDelete(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Delete")
-	vars := mux.Vars(r)
+	vars := srv.Vars(r)
 	id, ok := vars[id]
 
 	if !ok || id == "" {
@@ -84,7 +84,7 @@ func (srv *writeHandler) handleDelete(rw http.ResponseWriter, r *http.Request) {
 
 func (srv *writeHandler) handlePost(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Create")
-	vars := mux.Vars(r)
+	vars := srv.Vars(r)
 
 	_, hasProject := vars[project]
 	msg := newMessageWithTimeline(hasProject, vars)
