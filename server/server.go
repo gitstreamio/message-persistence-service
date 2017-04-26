@@ -17,8 +17,9 @@ const id string = "id"
 func Run() {
 	ctx := context.Background()
 
-	elasticClient, err := elastic.NewElasticAdapter(ctx)
-	writeHandler := &writeHandler{elasticClient}
+	elasticClient, err := elastic.NewElasticClient(ctx)
+	persistanceAdapter:= elastic.NewElasticAdapter(ctx, elasticClient)
+	writeHandler := &writeHandler{persistanceAdapter}
 
 	if err != nil {
 		spew.Dump(err)

@@ -74,3 +74,6 @@ modules.xml
 *.ipr
 
 # End of https://www.gitignore.io/api/go,intellij+iml
+
+message-persistence-service
+.idea/

@@ -19,11 +19,12 @@ type Deleter interface {
 }
 
 type Searcher interface {
-	SearchByUser(user string) []Message
-	SearchByOrganization(organization string) []Message
-	SearchByProject(organization string) []Message
+	SearchByUser(user string) ([]Message, error)
+	SearchByOrganization(organization string) ([]Message, error)
+	SearchByProject(organization string) ([]Message, error)
 }
 
-type Finder interface {
-	FindById(id string) Message
+type Getter interface {
+	GetById(id string) (Message, error)
+	Get(beginning int, amount int) ([]Message, error)
 }

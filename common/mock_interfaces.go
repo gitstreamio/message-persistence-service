@@ -174,63 +174,78 @@ func (_m *MockSearcher) EXPECT() *_MockSearcherRecorder {
 	return _m.recorder
 }
 
-func (_m *MockSearcher) SearchByUser(user string) []Message {
+func (_m *MockSearcher) SearchByUser(user string) ([]Message, error) {
 	ret := _m.ctrl.Call(_m, "SearchByUser", user)
 	ret0, _ := ret[0].([]Message)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 func (_mr *_MockSearcherRecorder) SearchByUser(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "SearchByUser", arg0)
 }
 
-func (_m *MockSearcher) SearchByOrganization(organization string) []Message {
+func (_m *MockSearcher) SearchByOrganization(organization string) ([]Message, error) {
 	ret := _m.ctrl.Call(_m, "SearchByOrganization", organization)
 	ret0, _ := ret[0].([]Message)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 func (_mr *_MockSearcherRecorder) SearchByOrganization(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "SearchByOrganization", arg0)
 }
 
-func (_m *MockSearcher) SearchByProject(organization string) []Message {
+func (_m *MockSearcher) SearchByProject(organization string) ([]Message, error) {
 	ret := _m.ctrl.Call(_m, "SearchByProject", organization)
 	ret0, _ := ret[0].([]Message)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 func (_mr *_MockSearcherRecorder) SearchByProject(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "SearchByProject", arg0)
 }
 
-// Mock of Finder interface
-type MockFinder struct {
+// Mock of Getter interface
+type MockGetter struct {
 	ctrl     *gomock.Controller
-	recorder *_MockFinderRecorder
+	recorder *_MockGetterRecorder
 }
 
-// Recorder for MockFinder (not exported)
-type _MockFinderRecorder struct {
-	mock *MockFinder
+// Recorder for MockGetter (not exported)
+type _MockGetterRecorder struct {
+	mock *MockGetter
 }
 
-func NewMockFinder(ctrl *gomock.Controller) *MockFinder {
-	mock := &MockFinder{ctrl: ctrl}
-	mock.recorder = &_MockFinderRecorder{mock}
+func NewMockGetter(ctrl *gomock.Controller) *MockGetter {
+	mock := &MockGetter{ctrl: ctrl}
+	mock.recorder = &_MockGetterRecorder{mock}
 	return mock
 }
 
-func (_m *MockFinder) EXPECT() *_MockFinderRecorder {
+func (_m *MockGetter) EXPECT() *_MockGetterRecorder {
 	return _m.recorder
 }
 
-func (_m *MockFinder) FindById(id string) Message {
-	ret := _m.ctrl.Call(_m, "FindById", id)
+func (_m *MockGetter) GetById(id string) (Message, error) {
+	ret := _m.ctrl.Call(_m, "GetById", id)
 	ret0, _ := ret[0].(Message)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
-func (_mr *_MockFinderRecorder) FindById(arg0 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "FindById", arg0)
+func (_mr *_MockGetterRecorder) GetById(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "GetById", arg0)
+}
+
+func (_m *MockGetter) Get(beginning int, amount int) ([]Message, error) {
+	ret := _m.ctrl.Call(_m, "Get", beginning, amount)
+	ret0, _ := ret[0].([]Message)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (_mr *_MockGetterRecorder) Get(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Get", arg0, arg1)
 }
