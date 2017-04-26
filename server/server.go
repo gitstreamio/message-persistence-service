@@ -12,6 +12,7 @@ import (
 
 const organization string = "organization"
 const project string = "project"
+const id string = "id"
 
 func Run() {
 	ctx := context.Background()
@@ -25,9 +26,11 @@ func Run() {
 	}
 
 	router := mux.NewRouter()
-	router.Handle(fmt.Sprintf("/{%s}/{%s}", organization, project), writeHandler).Methods("POST", "UPDATE", "DELETE")
+	router.Handle(fmt.Sprintf("/{%s}", organization), writeHandler).Methods("POST")
+	router.Handle(fmt.Sprintf("/{%s}/{%s}", organization, project), writeHandler).Methods("POST")
+
+	router.Handle(fmt.Sprintf("/{%s}/{%s}", organization, id), writeHandler).Methods("UPDATE", "DELETE")
+	router.Handle(fmt.Sprintf("/{%s}/{%s}/{%s}", organization, project, id), writeHandler).Methods("UPDATE", "DELETE")
 
 	http.ListenAndServe(":2021", router)
 }
-
-

@@ -32,28 +32,26 @@ func NewElasticAdapter(ctx context.Context) (common.PersistenceAdapter, error) {
 		}
 	}
 
-	return &elasticAdapter{client:client, ctx:ctx}, err
+	return &elasticAdapter{client: client, ctx: ctx}, err
 
 }
 
-func (ea *elasticAdapter) Persist(msg common.Message) (id string, err error) {
+func (ea *elasticAdapter) Create(msg common.Message) (id string, err error) {
 	resp, err := ea.client.Index().
 		Index(msgIndex).
 		Type(msgType).
 		BodyJson(msg).
-		Refresh("true").
 		Do(ea.ctx)
 
 	return resp.Id, err
 }
 
-func (ea *elasticAdapter) Update(msg common.Message) error {
+func (ea *elasticAdapter) Update(id string, msg common.Message) error {
 	_, err := ea.client.Index().
 		Index(msgIndex).
 		Type(msgType).
+		Id(id).
 		BodyJson(msg).
-		Id(msg.Id).
-		Refresh("true").
 		Do(ea.ctx)
 
 	return err
@@ -64,7 +62,6 @@ func (ea *elasticAdapter) Delete(id string) error {
 		Index(msgIndex).
 		Type(msgType).
 		Id(id).
-		Refresh("true").
 		Do(ea.ctx)
 
 	return err

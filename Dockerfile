@@ -1,4 +1,4 @@
-FROM alpine
+FROM scratch
 
 COPY message-persistence-service /message-persistence-service
 
