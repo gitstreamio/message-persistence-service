@@ -36,12 +36,7 @@ func (srv *writeHandler) handleUpdate(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	_, hasProject := vars[project]
 
-	var msg *common.Message
-	if hasProject {
-		msg = &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
-	} else {
-		msg = &common.Message{Timeline: fmt.Sprintf("%s", vars[organization])}
-	}
+	msg := newMessageWithTimeline(hasProject, vars)
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -92,12 +87,7 @@ func (srv *writeHandler) handlePost(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	_, hasProject := vars[project]
-	var msg *common.Message
-	if hasProject {
-		msg = &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
-	} else {
-		msg = &common.Message{Timeline: fmt.Sprintf("%s", vars[organization])}
-	}
+	msg := newMessageWithTimeline(hasProject, vars)
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -121,4 +111,13 @@ func (srv *writeHandler) handlePost(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rw.Write([]byte(id))
+}
+func newMessageWithTimeline(hasProject bool, vars map[string]string) *common.Message {
+	var msg *common.Message
+	if hasProject {
+		msg = &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
+	} else {
+		msg = &common.Message{Timeline: fmt.Sprintf("%s", vars[organization])}
+	}
+	return msg
 }
