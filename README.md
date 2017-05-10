@@ -48,3 +48,9 @@ You can currently get a message with a specific id with
 #### Get a timeline
 
     curl -X GET localhost:2021/someorga{/someoptionalrepo}
+
+#### Querying ES directly
+
+    curl "http://localhost:9200/messages/message/_search"
+
+You can install `jq` and pipe through it if you want to pretty print the json output
