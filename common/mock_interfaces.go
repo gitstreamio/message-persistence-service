@@ -229,9 +229,9 @@ func (_m *MockGetter) EXPECT() *_MockGetterRecorder {
 	return _m.recorder
 }
 
-func (_m *MockGetter) GetById(id string) (Message, error) {
+func (_m *MockGetter) GetById(id string) (*Message, error) {
 	ret := _m.ctrl.Call(_m, "GetById", id)
-	ret0, _ := ret[0].(Message)
+	ret0, _ := ret[0].(*Message)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -240,15 +240,15 @@ func (_mr *_MockGetterRecorder) GetById(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "GetById", arg0)
 }
 
-func (_m *MockGetter) Get(beginning int, amount int) ([]Message, error) {
-	ret := _m.ctrl.Call(_m, "Get", beginning, amount)
-	ret0, _ := ret[0].([]Message)
+func (_m *MockGetter) Get(timeline string, beginning int, amount int) ([]*Message, error) {
+	ret := _m.ctrl.Call(_m, "Get", timeline, beginning, amount)
+	ret0, _ := ret[0].([]*Message)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-func (_mr *_MockGetterRecorder) Get(arg0, arg1 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "Get", arg0, arg1)
+func (_mr *_MockGetterRecorder) Get(arg0, arg1, arg2 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Get", arg0, arg1, arg2)
 }
 
 // Mock of MuxVarsGetter interface

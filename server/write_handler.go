@@ -3,7 +3,6 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Sirupsen/logrus"
 	"io/ioutil"
 	"message-persistence-service/common"
 	"net/http"

@@ -11,7 +11,7 @@ type elasticAdapter struct {
 	ctx    context.Context
 }
 
-func NewElasticAdapter(ctx context.Context, client *elastic.Client) (common.PersistenceAdapter) {
+func NewElasticAdapter(ctx context.Context, client *elastic.Client) common.PersistenceAdapter {
 	return &elasticAdapter{client: client, ctx: ctx}
 }
 

@@ -27,8 +27,8 @@ type Searcher interface {
 }
 
 type Getter interface {
-	GetById(id string) (Message, error)
-	Get(timeline string, beginning int, amount int) ([]Message, error)
+	GetById(id string) (*Message, error)
+	Get(timeline string, beginning int, amount int) ([]*Message, error)
 }
 
 //This is an interface so that we can mock retrieval of path variables from our mux
