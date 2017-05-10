@@ -45,4 +45,5 @@ You can currently get a message with a specific id with
     curl -X GET localhost:2021/someorga{/someoptionalrepo}/~someid
 
 #### Get a timeline
+
     curl -X GET localhost:2021/someorga{/someoptionalrepo}
