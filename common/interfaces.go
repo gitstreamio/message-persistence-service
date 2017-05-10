@@ -21,13 +21,14 @@ type Deleter interface {
 }
 
 type Searcher interface {
-	SearchByUser(user string) []Message
-	SearchByOrganization(organization string) []Message
-	SearchByProject(organization string) []Message
+	SearchByUser(user string) ([]Message, error)
+	SearchByOrganization(organization string) ([]Message, error)
+	SearchByProject(organization string) ([]Message, error)
 }
 
-type Finder interface {
-	FindById(id string) Message
+type Getter interface {
+	GetById(id string) (*Message, error)
+	Get(timeline string, beginning int, amount int) ([]*Message, error)
 }
 
 //This is an interface so that we can mock retrieval of path variables from our mux

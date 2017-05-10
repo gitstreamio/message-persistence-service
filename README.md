@@ -40,8 +40,9 @@ The id is required.
 
 
 ### Reading
-As of right now only write operations are supported.
-So to read and search stuff just use the REST-Api of elasticsearch
-#### Search example
-    curl "http://localhost:9200/messages/message/_search"
-You can install `jq` and pipe through it if you want to pretty print the json output
+#### By id
+You can currently get a message with a specific id with
+    curl -X GET localhost:2021/someorga{/someoptionalrepo}/~someid
+
+#### Get a timeline
+    curl -X GET localhost:2021/someorga{/someoptionalrepo}

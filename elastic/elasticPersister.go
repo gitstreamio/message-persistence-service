@@ -6,34 +6,13 @@ import (
 	"message-persistence-service/common"
 )
 
-const msgIndex string = "messages"
-const msgType string = "message"
-
 type elasticAdapter struct {
 	client *elastic.Client
 	ctx    context.Context
 }
 
-func NewElasticAdapter(ctx context.Context) (common.PersistenceAdapter, error) {
-	// Create a client
-	client, err := elastic.NewClient(elastic.SetURL("http://elastic:9200"))
-	if err != nil {
-		return nil, err
-	}
-
-	indexExists, err := client.IndexExists().Index([]string{msgIndex}).Do(ctx)
-	if err != nil {
-		return nil, err
-	}
-	if !indexExists {
-		_, err = client.CreateIndex(msgIndex).Do(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return &elasticAdapter{client: client, ctx: ctx}, err
-
+func NewElasticAdapter(ctx context.Context, client *elastic.Client) common.PersistenceAdapter {
+	return &elasticAdapter{client: client, ctx: ctx}
 }
 
 func (ea *elasticAdapter) Create(msg common.Message) (id string, err error) {

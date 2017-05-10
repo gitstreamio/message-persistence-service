@@ -3,13 +3,10 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Sirupsen/logrus"
 	"io/ioutil"
 	"message-persistence-service/common"
 	"net/http"
 )
-
-var log = logrus.New()
 
 type writeHandler struct {
 	common.PersistenceAdapter
@@ -34,9 +31,8 @@ func (srv *writeHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 func (srv *writeHandler) handleUpdate(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Update")
 	vars := srv.Vars(r)
-	_, hasProject := vars[project]
 
-	msg := newMessageWithTimeline(hasProject, vars)
+	msg := newMessageWithTimeline(vars)
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -86,8 +82,7 @@ func (srv *writeHandler) handlePost(rw http.ResponseWriter, r *http.Request) {
 	log.Info("Create")
 	vars := srv.Vars(r)
 
-	_, hasProject := vars[project]
-	msg := newMessageWithTimeline(hasProject, vars)
+	msg := newMessageWithTimeline(vars)
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -112,12 +107,13 @@ func (srv *writeHandler) handlePost(rw http.ResponseWriter, r *http.Request) {
 	}
 	rw.Write([]byte(id))
 }
-func newMessageWithTimeline(hasProject bool, vars map[string]string) *common.Message {
-	var msg *common.Message
+func newMessageWithTimeline(vars map[string]string) *common.Message {
+	var timeline string
+	_, hasProject := vars[project]
 	if hasProject {
-		msg = &common.Message{Timeline: fmt.Sprintf("%s/%s", vars[organization], vars[project])}
+		timeline = fmt.Sprintf("%s/%s", vars[organization], vars[project])
 	} else {
-		msg = &common.Message{Timeline: fmt.Sprintf("%s", vars[organization])}
+		timeline = fmt.Sprintf("%s", vars[organization])
 	}
-	return msg
+	return &common.Message{Timeline: timeline}
 }
