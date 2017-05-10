@@ -42,6 +42,7 @@ The id is required.
 ### Reading
 #### By id
 You can currently get a message with a specific id with
+
     curl -X GET localhost:2021/someorga{/someoptionalrepo}/~someid
 
 #### Get a timeline
