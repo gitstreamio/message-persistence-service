@@ -10,7 +10,7 @@ const msgType string = "message"
 
 func NewElasticClient(ctx context.Context) (*elastic.Client, error) {
 	// Create a client
-	client, err := elastic.NewClient(elastic.SetURL("http://localhost:9200"))
+	client, err := elastic.NewClient(elastic.SetURL("http://elastic:9200"))
 	if err != nil {
 		return nil, err
 	}
